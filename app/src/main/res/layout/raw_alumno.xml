@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="150dp">
+
+    <TextView
+        android:id="@+id/alumno_Nombre"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/reg_edittext_style"
+        android:text="NombreAlumno"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/alumno_Dni"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/reg_edittext_style"
+        android:text="DNIAlumno"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alumno_Nombre" />
+
+    <TextView
+        android:id="@+id/alumno_Año"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/reg_edittext_style"
+        android:text="Turno"
+        app:layout_constraintStart_toEndOf="@+id/alumno_Dni"
+        app:layout_constraintTop_toBottomOf="@+id/alumno_Nombre" />
+
+    <Button
+        android:id="@+id/btn_Asistencia"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/btn_style"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="Asistencia"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toStartOf="@+id/btn_Notas"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alumno_Dni" />
+
+    <Button
+        android:id="@+id/btn_Notas"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/btn_style"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="Notas"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_Asistencia"
+        app:layout_constraintTop_toBottomOf="@+id/alumno_Dni" />
+
+    <TextView
+        android:id="@+id/alumno_Division"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/reg_edittext_style"
+        android:text="12va"
+        app:layout_constraintStart_toEndOf="@+id/alumno_Año"
+        app:layout_constraintTop_toBottomOf="@+id/alumno_Nombre" />
+
+    <TextView
+        android:id="@+id/alumno_Especialidad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/reg_edittext_style"
+        android:text="Eletromecanica"
+        app:layout_constraintStart_toEndOf="@+id/alumno_Division"
+        app:layout_constraintTop_toBottomOf="@+id/alumno_Nombre" />
+
+    <TextView
+        android:id="@+id/alumno_Turno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/reg_edittext_style"
+        android:text="Turno"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/alumno_Especialidad"
+        app:layout_constraintTop_toBottomOf="@+id/alumno_Nombre" />
+</android.support.constraint.ConstraintLayout>

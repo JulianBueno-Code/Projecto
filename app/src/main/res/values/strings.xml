@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">CuadernoDeComunicados</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="Años">
+        <item name="1">1ro</item>
+        <item>2do</item>
+        <item>3ro</item>
+        <item>4to</item>
+        <item>5to</item>
+        <item>6to</item>
+        <item>7to</item>
+    </string-array>
+
+    <string-array name="Turnos">
+
+        <item>Turno Mañana</item>
+        <item>Turno Tarde</item>
+        <item>Turno Noche</item>
+
+    </string-array>
+
+    <string-array name="div">
+        <item>1ra</item>
+        <item>2da</item>
+        <item>3ra</item>
+        <item>4ta</item>
+        <item>5ta</item>
+        <item>6ta</item>
+        <item>7ma</item>
+        <item>8va</item>
+        <item>9na</item>
+
+    </string-array>
+
+    <string-array name="Esp">
+        <item>Ciclo Basico</item>
+        <item>Informatica</item>
+        <item>Electronica</item>
+        <item>Quimica</item>
+        <item>Electromecanica</item>
+        <item>Construcciones</item>
+
+    </string-array>
+    <string name="title_activity_asistencia">AsistenciaActivity</string>
+    <string name="tab_text_1">Tab 1ro</string>
+    <string name="tab_text_2">Tab 2do</string>
+    <string name="tab_text_3">Tab 3ro</string>
+    <string name="tab_text_4">Tab 4to</string>
+    <string name="tab_text_5">Tab 5to</string>
+    <string name="tab_text_6">Tab 6to</string>
+    <string name="tab_text_7">Tab 7mo</string>
+
+
+
+</resources>
