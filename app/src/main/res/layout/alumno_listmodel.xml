@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/List_alumno_Nombre"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/reg_edittext_style"
+        android:text="NombreAlumno" />
+
+    <TextView
+        android:id="@+id/List_alumno_Dni"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/reg_edittext_style"
+        android:text="DNIAlumno" />
+
+    <TextView
+        android:id="@+id/List_alumno_Año"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/reg_edittext_style"
+        android:text="Turno" />
+
+    <TextView
+        android:id="@+id/List_alumno_Division"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/reg_edittext_style"
+        android:text="12va" />
+
+    <TextView
+        android:id="@+id/List_alumno_Turno"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/reg_edittext_style"
+        android:text="Turno"
+
+        />
+
+    <TextView
+        android:id="@+id/List_alumno_Especialidad"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/reg_edittext_style"
+        android:text="Eletromecanica" />
+</LinearLayout>

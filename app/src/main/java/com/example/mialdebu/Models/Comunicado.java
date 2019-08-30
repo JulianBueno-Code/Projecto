@@ -8,14 +8,38 @@ public class Comunicado {
 
     private String Comunicado;
     private String Time;
+    private String SubidoPor;
+    private String VistoPor;
 
+    public String getVistoPor() {
+        return VistoPor;
+    }
 
+    public void setVistoPor(String vistoPor) {
+        VistoPor = vistoPor;
+    }
 
-    private List<Boolean> divisiones = new ArrayList<>() ;
-    private List<Boolean> Amos = new ArrayList<>() ;
+    public String getSubidoPor() {
+        return SubidoPor;
+    }
 
-    public List <Boolean> getDivisiones() {
-        return divisiones;
+    public void setSubidoPor(String subidoPor) {
+        SubidoPor = subidoPor;
+    }
+
+    public String getCurso() {
+        return Curso;
+    }
+
+    public void setCurso(String curso) {
+        Curso = curso;
+    }
+
+    private String Curso = new String();
+    private String Divisiones = new String();
+
+    public String getDivisiones() {
+        return Divisiones;
     }
 
 
@@ -27,21 +51,13 @@ public class Comunicado {
         Time = time;
     }
 
-    public void setDivisiones(List<Boolean> ndivisiones) {
+    public void setDivisiones(String ndivisiones) {
 
-        this.divisiones = ndivisiones ;
-
-    }
-
-    public List<Boolean> getAmos() {
-
-        return Amos;
-    }
-
-    public void setAmos(List<Boolean> naos) {
-        this.Amos = naos;
+        this.Divisiones = ndivisiones ;
 
     }
+
+
 
     public String getComunicado() {
         return Comunicado;

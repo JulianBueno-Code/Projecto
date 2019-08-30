@@ -18,15 +18,21 @@ import com.example.mialdebu.Models.SpinnerCheckbox;
 import com.example.mialdebu.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.ServerTimestamp;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,6 +46,7 @@ public class ComunicadosActivity extends AppCompatActivity {
     private String[] divisionlist,añosList;
     Spinner div_Spinner,yearSpinner;
     private List<SpinnerCheckbox> spinList;
+    FirebaseAuth mAuth;
 
 
     private final  List<CheckableSpinnerAdapter.SpinnerItem<SpinnerCheckbox>> spinner_items_Div = new ArrayList<>();
@@ -63,7 +70,9 @@ public class ComunicadosActivity extends AppCompatActivity {
         div_Spinner = findViewById(R.id.comun_div_spinner);
         yearSpinner = findViewById(R.id.comun_year_spinner);
 
+        mAuth = FirebaseAuth.getInstance();
 
+        getSupportActionBar().setTitle("Subir un Comunicado");
 
         final List<SpinnerCheckbox> all_objects = new ArrayList<>();  // from wherever
 
@@ -172,25 +181,25 @@ public class ComunicadosActivity extends AppCompatActivity {
     private void SubirComunicado(Set<SpinnerCheckbox> selected_items_Div, Set<SpinnerCheckbox> selected_items_Years, String toString) {
 
         FirebaseFirestore mDataRef = FirebaseFirestore.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setTimestampsInSnapshotsEnabled(true)
+                .build();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         Comunicado comunicado
+
                 = new Comunicado();
-        
 
-   
-        
-
-        comunicado.setAmos(PasarDeSpinnerALista(selected_items_Years,añosList));
-        
-        
-
-        comunicado.setTime(sdf.format(new Date()));
-
+        comunicado.setCurso(PasarDeSpinnerALista(selected_items_Years,añosList));
+        Timestamp t =Timestamp.now ();
+        comunicado.setTime(sdf.format( t.toDate ()));
 
         comunicado.setDivisiones(PasarDeSpinnerALista(selected_items_Div,divisionlist));
 
         comunicado.setComunicado(toString);
+
+        comunicado.setSubidoPor(mAuth.getCurrentUser().getDisplayName());
 
 
         mDataRef.collection("Comunicados").add(comunicado).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
@@ -206,20 +215,17 @@ public class ComunicadosActivity extends AppCompatActivity {
 
     }
 
-    private List<Boolean> PasarDeSpinnerALista(Set<SpinnerCheckbox> selected_items,String[] liks) {
+    private String PasarDeSpinnerALista(Set<SpinnerCheckbox> selected_items,String[] lista) {
 
 
-        List<Boolean> yList = new ArrayList<>();
-        while (yList.size() <liks.length)
-            yList.add(false);
+        String yList = new String();
 
 
         for(SpinnerCheckbox d:selected_items) {
-            for (int i =0; i<liks.length;i++){
-                if(d.getInfo().equals(liks[i])){
-                    yList.set(i,true);
-                }
-            }
+                   yList+=d.getInfo()+", ";
+
+
+
         }
         
         return yList;

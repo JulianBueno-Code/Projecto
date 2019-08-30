@@ -28,7 +28,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,8 +54,7 @@ public class Alumno_Activity extends AppCompatActivity {
     int Taño, TDiv, TTurno,TEsp;
 
     Button boton, botoncito;
-
-
+    private String TAG = "Document Existence Check :";
 
 
     @Override
@@ -75,6 +77,9 @@ public class Alumno_Activity extends AppCompatActivity {
         botoncito = findViewById(R.id.Botoncito);
          boton = findViewById(R.id.btn_Alumno);
         int esp;
+
+
+        getSupportActionBar().setTitle("Agregar un Alumno A este Usuario");
 
         pb = findViewById(R.id.progress_Alu);
 
@@ -159,24 +164,55 @@ public class Alumno_Activity extends AppCompatActivity {
 
     private boolean Comprobar() {
 
-        if(Nombre !=null && Apellido !=null && DNI != null)
-        return true;
-        else
-            return false;
+        return Nombre != null && Apellido != null && DNI != null;
     }
 
-    public void AgregarAlumno(Alumno data) {
+    public void AgregarAlumno(final Alumno data) {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Alumnos").document(DNI.getText().toString()).set(data).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful())
-                    finish();
-            }
-        });
+        final DocumentReference alRef;
+
+        alRef = db.collection("Alumnos").document(DNI.getText().toString());
+
+
+        if(!Comprobaralumno(alRef))
+           db.collection("Alumnos").document(DNI.getText().toString()).set(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful())
+                        finish();
+                    else
+                        Log.d(TAG, "Alumno Fallo al Cargarse");
+                }
+            });
+
 
     }
+
+    private boolean Comprobaralumno(DocumentReference alRef) {
+        final boolean[] vale = new boolean[1];
+
+        alRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "Document exists!");
+                        vale[0] = true;
+                    } else {
+
+                        vale[0] = false;
+                        Log.d(TAG, "Document does not exist!");
+                    }
+                } else {
+                    Log.d(TAG, "Failed with: ", task.getException());
+                }
+            }
+        });
+        return vale[0];
+    }
+
 
 
 

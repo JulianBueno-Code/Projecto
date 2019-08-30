@@ -49,6 +49,12 @@ public class RegisterActivity extends AppCompatActivity {
      FirebaseDatabase  mDatabase;
     private DatabaseReference mDataRef;
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        getSupportActionBar().setTitle("Registro");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

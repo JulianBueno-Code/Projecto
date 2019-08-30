@@ -19,9 +19,12 @@ import android.widget.Toast;
 
 import com.example.mialdebu.Activities.Alumno_Activity;
 import com.example.mialdebu.Adapters.Adapter_Alumno;
+import com.example.mialdebu.Adapters.Adapter_Comunicados;
 import com.example.mialdebu.Models.Alumno;
 import com.example.mialdebu.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -35,6 +38,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -59,23 +63,24 @@ public class ProfileFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    RecyclerView Rv;
-     RecyclerView.LayoutManager layoutManager;
-     Adapter_Alumno adapter_alumno;
-     Button NewBtn,backBTN;
-     FirebaseFirestore Db;
-     Query mDataRef;
-     FirebaseAuth mAuth;
-     List<Alumno> data;
-     ProgressBar pblay;
-     ConstraintLayout lay;
-     FirebaseUser user;
 
+     Button NewBtn;
 
+    private RecyclerView rvAl;
+    private RecyclerView.LayoutManager layoutManager;
+
+    private FirebaseAuth mAuth;
+
+    private FirebaseUser currentuser;
+
+    FirebaseFirestore db;
+    Query RefAlumno;
+
+    List<Alumno> mAlumnos;
 
     private OnFragmentInteractionListener mListener;
-    private int DivisionBuscada = 7;
-    private  int AñoBuscado = 2;
+    private Adapter_Alumno adapter_alumno;
+
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -103,7 +108,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        lay.setVisibility(View.GONE);
+
 
     }
 
@@ -127,48 +132,47 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_profile, container, false);
-
-        Rv = v.findViewById(R.id.Alumno_RV);
         layoutManager = new LinearLayoutManager(getContext());
-        Rv.setLayoutManager(layoutManager);
-
-        pblay = v.findViewById(R.id.PBlay);
-        lay = v.findViewById(R.id.LayID);
-
         mAuth = FirebaseAuth.getInstance();
-        Db = FirebaseFirestore.getInstance();
-        user = mAuth.getCurrentUser();
-        mDataRef = Db.collection("Alumnos").whereEqualTo("usuarioTutor",user.getUid());
+        currentuser = mAuth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
+        rvAl = v.findViewById(R.id.RvAlumnosHome);
+
+        RefAlumno = db.collection("Alumnos").whereEqualTo("usuarioTutor",currentuser.getUid());
 
 
 
-        mDataRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                data = new ArrayList<>();
-                FirebaseFirestore dbref = FirebaseFirestore.getInstance();
-
-                for (DocumentSnapshot postsnap:  queryDocumentSnapshots.getDocuments()){
-
-                    Alumno alumno = postsnap.toObject(Alumno.class);
-
-                    dbref.collection("Usuarios").document(user.getUid()).collection("alumnos").add(alumno);
-
-                    data.add(alumno);
-
-
-                }
-                adapter_alumno = new Adapter_Alumno(getContext(),data);
-                Rv.setAdapter(adapter_alumno);
-            }
-        });
-
+        rvAl.setLayoutManager (layoutManager);
         NewBtn = v.findViewById(R.id.Btn);
         NewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent o = new Intent(getContext(), Alumno_Activity.class);
                 startActivity(o);
+            }
+        });
+
+          RefAlumno.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+
+              @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+
+                    mAlumnos = new ArrayList<>();
+                    if(task.getResult() != null)
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        Alumno alumno = document.toObject(Alumno.class);
+
+                        mAlumnos.add(alumno);
+
+                    }
+                    adapter_alumno = new Adapter_Alumno(getContext(),mAlumnos);
+                    rvAl.setAdapter(adapter_alumno);
+
+
+                }
             }
         });
 

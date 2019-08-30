@@ -2,6 +2,7 @@ package com.example.mialdebu.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.internal.NavigationMenuItemView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.mialdebu.Fragments.HomeFragment;
@@ -77,9 +79,10 @@ public class MainActivity extends AppCompatActivity
         pf = new ProfileFragment();
         SF= new SettingsFragment();
 
-        getSupportActionBar().setTitle("Home");
+        getSupportActionBar().setTitle("Comunicados");
 
         fab = findViewById(R.id.fab);
+        fab.setImageResource(R.drawable.baseline_keyboard_capslock_white_18dp);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,12 +133,14 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_Asistencia) {
+            Toast.makeText(this, "Esta es una Funcion aun en desarrollo", Toast.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -147,31 +152,32 @@ public class MainActivity extends AppCompatActivity
         //Aca se le da las acciones a los Botones del costado
         if (id == R.id.nav_home) {
             idPage = 1;
-            fab.setImageResource(R.drawable.ic_media_play_light);
+            fab.show();
+            fab.setImageResource(R.drawable.baseline_keyboard_capslock_white_18dp);
 
-            getSupportActionBar().setTitle("Home");
+            getSupportActionBar().setTitle("Comunicados");
             getSupportFragmentManager().beginTransaction().replace(R.id.container, hf).commit();
 
 
         } else if (id == R.id.nav_profile) {
             idPage = 2;
-            fab.setImageResource(R.drawable.ic_media_play_light);
+            fab.hide();
 
             getSupportActionBar().setTitle("Alumnos");
             getSupportFragmentManager().beginTransaction().replace(R.id.container, pf).commit();
 
 
-        }else
-            if(id == R.id.nav_Asistencia)
+        } /* else
+          if(id == R.id.nav_Asistencia)
         {
             getSupportActionBar().setTitle("Asistencia");
             Intent i = new Intent(getApplicationContext(),AsistenciaActivity.class);
             startActivity(i);
 
 
-        }else if (id == R.id.nav_settings) {
+        }*/else if (id == R.id.nav_settings) {
             idPage = 3;
-
+            fab.hide();
             getSupportActionBar().setTitle("Configuracion");
 
             getSupportFragmentManager().beginTransaction().replace(R.id.container,SF).commit();
@@ -181,7 +187,7 @@ public class MainActivity extends AppCompatActivity
             idPage = 4;
 
             FirebaseAuth.getInstance().signOut();
-            FirebaseDatabase.getInstance().setPersistenceEnabled(false);
+
             Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(loginActivity);
             finish();

@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
 
     private Intent HomeActivity;
+    private  Intent MainActivity;
 
     SignInButton signInButton ;
 
@@ -71,10 +72,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         userPassword = findViewById(R.id.Login_Password);
         BtnLogin = findViewById(R.id.LogInBtn);
         loginProgress = findViewById(R.id.Login_Progress);
-        HomeActivity = new Intent(this, MainActivity.class);
+        HomeActivity = new Intent(this, HomeActivity.class);
         log_Regbtn = findViewById(R.id.Log_RegBtn);
 
-
+        MainActivity = new Intent(this,MainActivity.class);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -100,6 +101,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             public void onClick(View v) {
                 Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
                 startActivityForResult(intent, SIGN_IN_CODE);
+                loginProgress.setVisibility(View.VISIBLE);
+                BtnLogin.setVisibility(View.INVISIBLE);
+                signInButton.setVisibility(View.INVISIBLE);
+                log_Regbtn.setVisibility(View.INVISIBLE);
 
                 googleApiClient.connect();
             }
@@ -163,7 +168,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        getSupportActionBar().setTitle("Inicio De Sesion");
 
         mAuth.addAuthStateListener(mAuthListener);
     }

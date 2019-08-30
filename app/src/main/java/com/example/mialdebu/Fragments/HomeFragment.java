@@ -66,18 +66,6 @@ public class HomeFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
-
-    private FirebaseAuth mAuth;
-
-    private FirebaseUser currentuser;
-    List<Boolean> Div,Amos;
-    FirebaseFirestore db;
-    Query RefAlumno,RefComunicado;
-
-    Adapter_Comunicados adapter_Comunicados;
-    List<Comunicado> mData;
 
 
 
@@ -123,54 +111,7 @@ public class HomeFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
-        recyclerView = v.findViewById(R.id.comun_RV);
-        layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
 
-        mAuth = FirebaseAuth.getInstance();
-        currentuser = mAuth.getCurrentUser();
-        db = FirebaseFirestore.getInstance();
-        Div = new ArrayList<>();
-        Amos = new ArrayList<>();
-        while(Amos.size()<7)Amos.add(false);
-        while (Div.size() <9)Div.add(false);
-        RefAlumno = db.collection("Alumnos").whereEqualTo("usuarioTutor",currentuser.getUid());
-
-
-        RefAlumno.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                    Alumno al = document.toObject(Alumno.class);
-
-                    if(al != null) {
-                        Div.set(al.getDivision(), true);
-                        Amos.set(al.getAño(), true);
-                    }
-                }
-            }
-        });
-
-        RefComunicado = db.collection("Comunicados").whereEqualTo("amos",Amos);
-        RefComunicado.whereEqualTo("divisiones",Div).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()) {
-                    mData = new ArrayList<>();
-                    if(task.getResult() != null)
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Comunicado comunicado = document.toObject(Comunicado.class);
-
-                            mData.add(comunicado);
-
-                        }
-                    adapter_Comunicados = new Adapter_Comunicados(getContext(),mData);
-                    recyclerView.setAdapter(adapter_Comunicados);
-                }
-                else
-                    Toast.makeText(getContext(), "No Se Consiguio el Comunicado", Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
 
